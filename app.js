@@ -53,6 +53,28 @@ app.get('/boletos', (req, res) => {
     res.json(rows);
   });
 });
+app.get('/tudo', (req, res) => {
+  db.all('SELECT * FROM boleto', (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json(rows);
+  });
+});
+
+app.get('/boletosPendentes/:userId', (req, res) => {
+  const userId = req.params.userId;
+
+  const hoje = new Date().toISOString().split('T')[0]; // Obtém a data de hoje no formato 'YYYY-MM-DD'
+  db.all('SELECT * FROM boleto WHERE pagamentoAgendado <= ? and pago = "N" and user = ?', [hoje, userId], (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json(rows);
+  });
+});
 
 // Rota para buscar um boleto por ID
 app.get('/boletos/:id', (req, res) => {
@@ -69,6 +91,17 @@ app.get('/boletos/:id', (req, res) => {
     }
   });
 });
+
+app.get('/boletos/user/:id', (req, res) => {
+    const id = req.params.id;
+    db.all('SELECT * FROM boleto WHERE user = ?', [id], (err, rows) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+        return;
+      }
+      res.json(rows);
+    });
+  });
 
 // Rota para atualizar um boleto por ID
 app.put('/boletos/:id', (req, res) => {
