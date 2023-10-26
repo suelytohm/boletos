@@ -44,7 +44,8 @@ app.post('/boletos', (req, res) => {
 
 // Rota para listar todos os boletos
 app.get('/boletos', (req, res) => {
-  db.all('SELECT * FROM boleto', (err, rows) => {
+  const hoje = new Date().toISOString().split('T')[0]; // Obtém a data de hoje no formato 'YYYY-MM-DD'
+  db.all('SELECT * FROM boleto WHERE pagamentoAgendado <= ? and pago = "N" ', [hoje], (err, rows) => {
     if (err) {
       res.status(500).json({ error: err.message });
       return;
@@ -72,7 +73,8 @@ app.get('/boletos/:id', (req, res) => {
 // Rota para atualizar um boleto por ID
 app.put('/boletos/:id', (req, res) => {
   const id = req.params.id;
-  const { user, codigoBoleto, tipo, valor, pagamentoAgendado, diaPagamento, pago, nomeComprovante } = req.body;
+  const diaPagamento = moment().format('YYYY-MM-DD');  
+  const { user, codigoBoleto, tipo, valor, pagamentoAgendado, pago, nomeComprovante } = req.body;
   db.run('UPDATE boleto SET user = ?, codigoBoleto = ?, tipo = ?, valor = ?, pagamentoAgendado = ?, diaPagamento = ?, pago = ?, nomeComprovante = ? WHERE id = ?',
     [user, codigoBoleto, tipo, valor, pagamentoAgendado, diaPagamento, pago, nomeComprovante, id],
     function(err) {
