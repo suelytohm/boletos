@@ -64,5 +64,5 @@ class Payload {
 }
 
 // Exemplo de uso
-const payload = new Payload('ROSENILDO SUELYTOHM DE OL', '617ea695-815b-4593-94b8-a924a560443b', '50.00', 'SAO PAULO', 'ABFZXINTERNET');
+const payload = new Payload('ROSENILDO SUELYTOHM DE OL', '617ea695-815b-4593-94b8-a924a560443b', '50.00', 'SAO PAULO', 'INTERNET');
 payload.gerarPayload();

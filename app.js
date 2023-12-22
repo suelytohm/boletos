@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const { Pool } = require('pg');
 const bodyParser = require('body-parser');
 
@@ -17,6 +18,9 @@ const pool = new Pool({
 
 // Middleware para análise do corpo das requisições
 app.use(bodyParser.json());
+app.use(cors({
+  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+}));
 
 // Rotas CRUD
 
