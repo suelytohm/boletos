@@ -38,7 +38,11 @@ app.post('/boleto', async (req, res) => {
 
   try {
     const result = await pool.query(query, values);
-    res.json(result.rows[0]);
+
+    const result2 = await pool.query('SELECT * FROM boleto');
+    res.json(result2.rows);
+
+    // res.json(result.rows[0]);
   } catch (error) {
     console.error('Erro ao inserir boleto:', error);
     res.status(500).json({ error: 'Erro interno do servidor' });
