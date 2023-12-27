@@ -39,7 +39,7 @@ app.post('/boleto', async (req, res) => {
   try {
     const result = await pool.query(query, values);
 
-    const result2 = await pool.query('SELECT * FROM boleto');
+    const result2 = await pool.query('SELECT * FROM boleto order by pagamentoagendado desc');
     res.json(result2.rows);
 
     // res.json(result.rows[0]);
@@ -52,7 +52,7 @@ app.post('/boleto', async (req, res) => {
 // Obter todos os boletos
 app.get('/tudo', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM boleto');
+    const result = await pool.query('SELECT * FROM boleto order by pagamentoagendado desc');
     res.json(result.rows);
   } catch (error) {
     console.error('Erro ao obter boletos:', error);
