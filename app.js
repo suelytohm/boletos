@@ -5,18 +5,19 @@ const path = require('path');
 const cors = require('cors');
 const { Pool } = require('pg');
 const bodyParser = require('body-parser');
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-/**
+
 const http = require('http');
 const socketIO = require('socket.io');
 
 
 const server = http.createServer(app);
 const io = socketIO(server);
- */
+ 
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+
 
 // Configuração do pool do PostgreSQL
 const pool = new Pool({
@@ -143,12 +144,12 @@ app.get('/arquivo/:nomeArquivo', (req, res) => {
 
 
 // Iniciar o servidor
-app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Servidor rodando em http://localhost:${PORT}`);
+// });
 
 
-/**
+
 io.on('connection', (socket) => {
   console.log('Novo usuário conectado');
 
@@ -168,8 +169,7 @@ io.on('connection', (socket) => {
 });
 
 // Inicia o servidor na porta 3000
-const PORT = process.env.PORT || 3000;
+
 server.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
- */
