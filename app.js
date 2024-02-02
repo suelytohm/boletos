@@ -1,8 +1,19 @@
 require('dotenv').config();
 const express = require('express');
+const multer = require('multer');
+const path = require('path');
 const cors = require('cors');
 const { Pool } = require('pg');
 const bodyParser = require('body-parser');
+
+/**
+const http = require('http');
+const socketIO = require('socket.io');
+
+
+const server = http.createServer(app);
+const io = socketIO(server);
+ */
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -110,7 +121,55 @@ app.get('/user/:user', async (req, res) => {
 });
 
 
+const storage = multer.diskStorage({
+  destination: function(req, res, cb){
+    cb(null, "uploads/")
+  },
+  filename: function(req, file, cb){
+    cb(null, file.originalname)
+  }
+})
+
+const upload = multer({storage})
+
+app.post('/upload', upload.single('file'), (req, res) => {
+  res.send("Arquivo recebido")
+})
+
+app.get('/arquivo/:nomeArquivo', (req, res) => {
+  const nomeArquivo = req.params.nomeArquivo;
+  res.sendFile(`${__dirname}/uploads/${nomeArquivo}`);
+});
+
+
 // Iniciar o servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
+
+
+/**
+io.on('connection', (socket) => {
+  console.log('Novo usuário conectado');
+
+  // Manipula mensagens do cliente
+  socket.on('novo boleto', (msg) => {
+    console.log('Mensagem recebida: ' + msg);
+    
+
+    // Envia a mensagem para todos os clientes conectados
+    io.emit('novo boleto', msg);
+  });
+
+  // Manipula desconexões
+  socket.on('disconnect', () => {
+    console.log('Usuário desconectado');
+  });
+});
+
+// Inicia o servidor na porta 3000
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
+});
+ */
