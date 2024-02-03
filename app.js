@@ -9,6 +9,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 
+app.use(bodyParser.json());
+app.use(cors({
+  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+}));
+
 const http = require('http');
 const socketIO = require('socket.io');
 
@@ -29,10 +34,7 @@ const pool = new Pool({
 });
 
 // Middleware para análise do corpo das requisições
-app.use(bodyParser.json());
-app.use(cors({
-  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
-}));
+
 
 // Rotas CRUD
 
