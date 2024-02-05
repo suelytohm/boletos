@@ -164,7 +164,7 @@ io.on('connection', (socket) => {
 
   socket.on('enviar comprovante', (comprovante) => {
     console.log('Comprovante solicitado: ' + comprovante);
-    io.emit('novo boleto', comprovante);
+    io.emit('enviar comprovante', comprovante);
   });
 
   // Manipula desconexões
