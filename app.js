@@ -158,10 +158,13 @@ io.on('connection', (socket) => {
   // Manipula mensagens do cliente
   socket.on('novo boleto', (msg) => {
     console.log('Mensagem recebida: ' + msg);
-    
-
     // Envia a mensagem para todos os clientes conectados
     io.emit('novo boleto', msg);
+  });
+
+  socket.on('enviar comprovante', (comprovante) => {
+    console.log('Comprovante solicitado: ' + comprovante);
+    io.emit('novo boleto', comprovante);
   });
 
   // Manipula desconexões
