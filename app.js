@@ -113,7 +113,7 @@ app.put('/boletos/:id', async (req, res) => {
 app.get('/user/:user', async (req, res) => {
   const user = req.params.user;
   try {
-    const result = await pool.query('SELECT * FROM usuario where nome = $1',
+    const result = await pool.query('SELECT * FROM usuario where id = $1',
     [user]
   );
     res.json(result.rows);
