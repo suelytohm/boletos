@@ -124,6 +124,28 @@ app.get('/user/:user', async (req, res) => {
 });
 
 
+app.put('/atualizarSaldo/:id', async (req, res) => {
+  const id = req.params.user;
+  const saldo = req.body.saldoatualizado;
+
+  try {
+    const result = await pool.query(
+      'UPDATE usuario SET saldo = $1 WHERE id = $2',
+      [saldo, id]
+    );
+
+    if (result.rowCount > 0) {
+      res.json({ message: 'Saldo atualizado com sucesso' });
+    } else {
+      res.status(404).json({ message: 'Usuário não encontrado' });
+    }
+  } catch (err) {
+    console.error('Erro ao atualizar o saldo:', err);
+    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+})
+
+
 const storage = multer.diskStorage({
   destination: function(req, res, cb){
     cb(null, "uploads/")
@@ -144,11 +166,6 @@ app.get('/arquivo/:nomeArquivo', (req, res) => {
   res.sendFile(`${__dirname}/uploads/${nomeArquivo}`);
 });
 
-
-// Iniciar o servidor
-// app.listen(PORT, () => {
-//   console.log(`Servidor rodando em http://localhost:${PORT}`);
-// });
 
 
 
