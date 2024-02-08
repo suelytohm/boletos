@@ -125,7 +125,7 @@ app.get('/user/:user', async (req, res) => {
 
 
 app.put('/atualizarSaldo/:id', async (req, res) => {
-  const id = req.params.user;
+  const id = req.params.id;
   const saldo = req.body.saldoatualizado;
 
   try {
