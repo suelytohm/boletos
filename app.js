@@ -123,6 +123,29 @@ app.get('/user/:user', async (req, res) => {
   }
 });
 
+app.get('/user/telefone/:telefone', async (req, res) => {
+  const telefone = req.params.telefone;
+  let numero = ""
+
+  if(telefone.length == 17){
+      let meio = telefone.substring(4, telefone.length -5)
+      numero = telefone.substring(2, 4) + 9 + meio;
+  }
+  else if (telefone.length == 18) {
+      numero = telefone.substring(2, telefone.length - 5)
+  }
+
+  try {
+    const result = await pool.query('SELECT * FROM usuario where telefone = $1',
+    [numero]
+  );
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Erro ao obter saldo do usuario:', error);
+    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+});
+
 
 app.put('/atualizarSaldo/:id', async (req, res) => {
   const id = req.params.id;
