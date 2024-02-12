@@ -206,6 +206,11 @@ io.on('connection', (socket) => {
     console.log('Comprovante solicitado: ' + comprovante);
     io.emit('enviar comprovante', comprovante);
   });
+ 
+  socket.on('depositar', (transferencia) => {
+    console.log('Transferência solicitada: ' + transferencia);
+    io.emit('depositar', transferencia);
+  });
 
   // Manipula desconexões
   socket.on('disconnect', () => {
