@@ -44,17 +44,18 @@ app.post('/boleto', async (req, res) => {
     usuario,
     codigoBoleto,
     tipo,
-    valor
+    valor, 
+    telefone
   } = req.body;
 
-  const query = 'INSERT INTO boleto (usuario, codigoBoleto, tipo, valor) VALUES ($1, $2, $3, $4) RETURNING *';
-  const values = [usuario, codigoBoleto, tipo, valor];
+  const query = 'INSERT INTO boleto (usuario, codigoBoleto, tipo, valor, telefone) VALUES ($1, $2, $3, $4, $5) RETURNING *';
+  const values = [usuario, codigoBoleto, tipo, valor, telefone];
 
   try {
     const result = await pool.query(query, values);
 
     const result2 = await pool.query('SELECT * FROM boleto order by pagamentoagendado desc');
-    res.json(result2.rows);
+    res.status(200).json(result2.rows);
 
     // res.json(result.rows[0]);
   } catch (error) {
