@@ -76,6 +76,19 @@ app.get('/tudo', async (req, res) => {
 });
 
 
+// Obter todos os boletos
+app.get('/tudo/:nomeUsuario', async (req, res) => {
+  const nomeUsuario = req.params.nomeUsuario;
+  try {
+    const result = await pool.query('SELECT * FROM boleto where usuario = $1 order by pagamentoagendado desc', [nomeUsuario]);
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Erro ao obter boletos:', error);
+    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+});
+
+
 app.get('/boletos', async (req, res) => {
     try {
       const result = await pool.query(`SELECT * FROM boleto WHERE pagamentoAgendado <= CURRENT_DATE and pago = 'N'`);
