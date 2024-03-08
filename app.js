@@ -54,7 +54,7 @@ app.post('/boleto', async (req, res) => {
   try {
     const result = await pool.query(query, values);
 
-    const result2 = await pool.query('SELECT * FROM boleto order by pagamentoagendado desc');
+    const result2 = await pool.query('SELECT * FROM boleto where usuario = $1 order by pagamentoagendado desc', [usuario]);
     res.status(200).json(result2.rows);
 
     // res.json(result.rows[0]);
